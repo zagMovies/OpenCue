@@ -153,7 +153,10 @@ try:
             ConfigParser = configparser.SafeConfigParser
         else:
             ConfigParser = configparser.RawConfigParser
-        config = ConfigParser()
+        # Allow some config file sections to contain only keys
+        config = ConfigParser(allow_no_value=True)
+        # Respect keys case
+        config.optionxform = str
         config.read(CONFIG_FILE)
         logging.warning('Loading config %s', CONFIG_FILE)
 
