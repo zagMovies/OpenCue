@@ -86,7 +86,11 @@ def getCustomScriptParameters(script_path):
     :param script_path: path to a custom script with an inspectable opencue_render() function
     :rtype: str, dict
     :return:  script name to be loaded as a module / dict of parameters (name, value, type) from opencue_render()
+    :raises FileExistsError: The provided script is not a file
+    :raises NameError: The provided script does not contain an opencue_render() function
     """
+    if not os.path.isfile(script_path):
+        raise FileExistsError(f'File does not exist {script_path}=')
     parameters = {}
     _script_dir, script_file = os.path.split(os.path.splitext(script_path)[0])
     sys.path.append(_script_dir)
